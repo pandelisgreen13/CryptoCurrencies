@@ -6,7 +6,7 @@
     android:background="@android:color/white"
     android:clickable="true"
     android:focusable="true"
-    android:visibility="visible">
+    android:visibility="gone">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/emptyTextView"
