@@ -10,9 +10,10 @@
         layout="@layout/layout_toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rateRecyclerView"
+        android:id="@+id/homeRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/common_ten_dp"
         android:layout_below="@+id/toolbarLayout" />
 
     <include

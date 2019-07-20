@@ -1,6 +1,10 @@
 <resources>
     <!-- Common Density-independent Pixels-->
+
+    <dimen name="common_zero_dp">0dp</dimen>
+    <dimen name="common_one_dp">1dp</dimen>
     <dimen name="common_four_dp">4dp</dimen>
+    <dimen name="common_six_dp">6dp</dimen>
     <dimen name="common_eight_dp">8dp</dimen>
     <dimen name="common_ten_dp">10dp</dimen>
     <dimen name="common_twelve_dp">12dp</dimen>
@@ -43,5 +47,5 @@
     <dimen name="common_text_twenty_sp">20sp</dimen>
     <dimen name="common_text_twenty_four_sp">24sp</dimen>
     <dimen name="common_text_twenty_six_sp">26sp</dimen>
-    <dimen name="common_zero_dp">0dp</dimen>
+    <dimen name="common_two_dp">2dp</dimen>
 </resources>

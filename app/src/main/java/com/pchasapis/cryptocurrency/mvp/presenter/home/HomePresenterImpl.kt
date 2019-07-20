@@ -20,10 +20,10 @@ class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : Ba
             if (!isViewAttached()) {
                 return@launch
             }
-            getView()?.hideLoader()
             responseRate?.data?.let { rateDateModelList ->
                 val responseCrypto = withContext(bgDispatcher) { getInteractor()?.onRetrieveCrypotList() }
                 responseCrypto?.data?.let { cryptoList ->
+                    getView()?.hideLoader()
                     getView()?.onRetrieveLiveRates(handleList(rateDateModelList, cryptoList))
                 } ?: run {
                     getView()?.showEmpty()
