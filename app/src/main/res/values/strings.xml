@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CryptoCurrencies</string>
+
+    <!-- Common -->
+    <string name="no_data">Δεν βρέθηκε αποτέλεσμα</string>
+    <string name="common_ok">OK</string>
+    <string name="generic_error">Παρουσιάστηκε πρόβλημα</string>
+    <string name="no_internet">Δεν βρέθηκε σύνδεση στο διαδίκτυο</string>
+
+    <!-- Splash -->
+    <string name="splash_title">CryptoCurrencies</string>
+
+</resources>

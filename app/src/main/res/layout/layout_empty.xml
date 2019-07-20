@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/emptyView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:visibility="visible">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/emptyTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/common_fifty_dp"
+        android:layout_marginEnd="@dimen/common_fifty_dp"
+        android:gravity="center_horizontal"
+        android:maxLines="2"
+        android:text="@string/no_data"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/common_text_sixteen_sp" />
+
+</RelativeLayout>
