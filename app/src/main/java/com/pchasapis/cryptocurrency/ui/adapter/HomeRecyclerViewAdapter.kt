@@ -9,9 +9,8 @@ import com.pchasapis.cryptocurrency.R
 import com.pchasapis.cryptocurrency.common.extensions.getAmountWithDecimalAndCurrencySymbolEnd
 import com.pchasapis.cryptocurrency.common.extensions.loadUrl
 import com.pchasapis.cryptocurrency.models.objects.RateDataModel
-import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.row_home.*
+import kotlinx.android.synthetic.main.layout_crypto_details.*
 
 class HomeRecyclerViewAdapter(private val liveDataList: List<RateDataModel>, private val onItemClicked: (RateDataModel) -> Unit) : RecyclerView.Adapter<HomeRecyclerViewAdapter.ItemViewHolder>() {
 

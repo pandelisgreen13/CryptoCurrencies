@@ -7,5 +7,5 @@ object Definitions {
 
 object BUNDLE{
 
-    const val HERO_DETAILS                                                              = "heroDetails"
+    const val CRYPTO_DETAILS                                                           = "cryptoDetails"
 }

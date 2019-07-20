@@ -1,5 +1,6 @@
 package com.pchasapis.cryptocurrency.ui.activity.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
@@ -17,7 +18,8 @@ import com.pchasapis.cryptocurrency.ui.adapter.HomeRecyclerViewAdapter
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import android.text.TextWatcher
-
+import com.pchasapis.cryptocurrency.common.BUNDLE
+import com.pchasapis.cryptocurrency.ui.activity.productDetails.ProductDetailActivity
 
 
 class HomeActivity : BaseMVPActivity<HomePresenter>(), HomeView {
@@ -40,12 +42,13 @@ class HomeActivity : BaseMVPActivity<HomePresenter>(), HomeView {
         searchEditText.addTextChangedListener(object : TextWatcher {
 
             override fun onTextChanged(cs: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
-                if(cs.isEmpty()){
+                if (cs.isEmpty()) {
                     presenter?.showList(false)
                     searchEditText.clearFocus()
                     searchImageView.setImageResource(R.drawable.ic_search)
                 }
             }
+
             override fun beforeTextChanged(arg0: CharSequence, arg1: Int, arg2: Int, arg3: Int) {}
             override fun afterTextChanged(arg0: Editable) {}
         })
@@ -55,7 +58,11 @@ class HomeActivity : BaseMVPActivity<HomePresenter>(), HomeView {
         closeSoftKeyboard(this)
         homeRecyclerView.layoutManager = LinearLayoutManager(this)
         homeRecyclerView.setHasFixedSize(true)
-        homeRecyclerView.adapter = HomeRecyclerViewAdapter(liveDataList, {})
+        homeRecyclerView.adapter = HomeRecyclerViewAdapter(liveDataList) { rateDataModel ->
+            val intent = Intent(this, ProductDetailActivity::class.java)
+            intent.putExtra(BUNDLE.CRYPTO_DETAILS,rateDataModel)
+            startActivity(intent)
+        }
     }
 
     override fun updateSearchButton(isTyping: Boolean) {
