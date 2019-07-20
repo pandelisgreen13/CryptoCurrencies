@@ -37,8 +37,8 @@ class CryptoClient {
             .writeTimeout(60L, TimeUnit.SECONDS)
             .build()
 
-    fun getLiveRatesAsync(): Deferred<LiveDataResponse> {
-        return cryptoApi.getLiveRatesAsync(Definitions.ACCESS_KEY, "1")
+    fun getLiveRatesAsync(currency: String): Deferred<LiveDataResponse> {
+        return cryptoApi.getLiveRatesAsync(Definitions.ACCESS_KEY, Definitions.EXPAND, currency)
     }
 
     fun getCryptoListAsync(): Deferred<CryptoListResponse> {

@@ -1,6 +1,7 @@
 package com.pchasapis.cryptocurrency.mvp.presenter.home
 
-import com.pchasapis.cryptocurrency.models.objects.RateDataModel
+import com.pchasapis.cryptocurrency.common.Definitions
+import com.pchasapis.cryptocurrency.models.objects.rate.RateDataModel
 import com.pchasapis.cryptocurrency.models.parsers.crypto.list.Crypto
 import com.pchasapis.cryptocurrency.mvp.interactor.home.HomeInteractor
 import com.pchasapis.cryptocurrency.mvp.presenter.base.BasePresenter
@@ -12,6 +13,7 @@ class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : Ba
 
     private var rateDataModelList = arrayListOf<RateDataModel>()
     private var isTyping: Boolean = false
+    private var currency = Definitions.USD
 
     override fun getRates() {
         if (!isViewAttached()) {
@@ -19,12 +21,12 @@ class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : Ba
         }
         uiScope.launch {
             getView()?.showLoader()
-            val responseRate = withContext(bgDispatcher) { getInteractor()?.onRetrieveRates() }
+            val responseRate = withContext(bgDispatcher) { getInteractor()?.onRetrieveRates(currency) }
             if (!isViewAttached()) {
                 return@launch
             }
             responseRate?.data?.let { rateDateModelList ->
-                val responseCrypto = withContext(bgDispatcher) { getInteractor()?.onRetrieveCrypotList() }
+                val responseCrypto = withContext(bgDispatcher) { getInteractor()?.onRetrieveCryptoList() }
                 responseCrypto?.data?.let { cryptoList ->
                     getView()?.hideLoader()
                     rateDataModelList = handleList(rateDateModelList, cryptoList)
@@ -56,11 +58,23 @@ class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : Ba
         getView()?.onRetrieveLiveRates(queryList)
     }
 
-    override fun showList(isTyping: Boolean) {
+    override fun getListWithDifferentCurrency() {
         if (!isViewAttached()) {
             return
         }
-        this.isTyping = isTyping
+        currency = when {
+            isEuroCurrency() -> Definitions.USD
+            else -> Definitions.EUR
+        }
+        getView()?.updateCurrencyButton(isEuroCurrency())
+        getRates()
+    }
+
+    override fun showList() {
+        if (!isViewAttached()) {
+            return
+        }
+        this.isTyping = false
         getView()?.onRetrieveLiveRates(rateDataModelList)
     }
 
@@ -73,4 +87,9 @@ class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : Ba
     private fun foundCryptoById(title: String, cryptoList: List<Crypto>): Crypto? {
         return cryptoList.find { it.symbol == title }
     }
+
+    private fun isEuroCurrency(): Boolean {
+        return currency == Definitions.EUR
+    }
+
 }

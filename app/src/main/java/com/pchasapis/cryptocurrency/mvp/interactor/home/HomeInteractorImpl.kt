@@ -2,7 +2,7 @@ package com.pchasapis.cryptocurrency.mvp.interactor.home
 
 import com.google.gson.Gson
 import com.pchasapis.cryptocurrency.models.common.DataResult
-import com.pchasapis.cryptocurrency.models.objects.RateDataModel
+import com.pchasapis.cryptocurrency.models.objects.rate.RateDataModel
 import com.pchasapis.cryptocurrency.models.parsers.crypto.list.Crypto
 import com.pchasapis.cryptocurrency.models.parsers.crypto.list.CryptoListResponse
 import com.pchasapis.cryptocurrency.models.parsers.crypto.liveData.LiveDataResponse
@@ -16,27 +16,27 @@ import timber.log.Timber
 class HomeInteractorImpl(private var cryptoClient: CryptoClient) : BaseInteractor(), HomeInteractor {
 
 
-    override suspend fun onRetrieveCrypotList(): DataResult<List<Crypto>> {
+    override suspend fun onRetrieveCryptoList(): DataResult<List<Crypto>> {
         return try {
             val response = cryptoClient.getCryptoListAsync().await()
-            DataResult(handleCryptoData(response))
+            DataResult(jsonObjectToJsonArrayCryptoData(response))
         } catch (t: Throwable) {
             Timber.d(t)
             DataResult(throwable = t)
         }
     }
 
-    override suspend fun onRetrieveRates(): DataResult< List<RateDataModel>> {
+    override suspend fun onRetrieveRates(currency: String): DataResult<List<RateDataModel>> {
         return try {
-            val response = cryptoClient.getLiveRatesAsync().await()
-            DataResult(handleLiveData(response))
+            val response = cryptoClient.getLiveRatesAsync(currency).await()
+            DataResult(jsonObjectToJsonArrayLiveData(response))
         } catch (t: Throwable) {
             Timber.d(t)
             DataResult(throwable = t)
         }
     }
 
-    private fun handleLiveData(response: LiveDataResponse): List<RateDataModel> {
+    private fun jsonObjectToJsonArrayLiveData(response: LiveDataResponse): List<RateDataModel> {
 
         var gson = Gson()
         val jsonObject = JSONObject(gson.toJson(response.liveDataRates))
@@ -48,13 +48,14 @@ class HomeInteractorImpl(private var cryptoClient: CryptoClient) : BaseInteracto
             val value = jsonObject.opt(key)
 
             val rate = gson.fromJson(value.toString(), Rate::class.java)
-            rateList.add(RateDataModel(key, rate, response.target ?: ""))
+            rateList.add(RateDataModel(key, rate, response.target
+                    ?: ""))
         }
         return rateList
     }
 
 
-    private fun handleCryptoData(response: CryptoListResponse): List<Crypto> {
+    private fun jsonObjectToJsonArrayCryptoData(response: CryptoListResponse): List<Crypto> {
 
         var gson = Gson()
         val jsonObject = JSONObject(gson.toJson(response.cryptoList))

@@ -4,9 +4,10 @@
     package="com.pchasapis.cryptocurrency">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name=".common.application.CryptoAplication"
+        android:name=".common.application.CryptoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,7 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activity.productDetails.ProductDetailActivity"></activity>
+        <activity
+            android:name=".ui.activity.productDetails.ProductDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".ui.activity.home.HomeActivity"
             android:screenOrientation="portrait"
@@ -29,6 +33,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".service.polling.PollingService"
+            android:enabled="true" />
+
     </application>
 
 </manifest>

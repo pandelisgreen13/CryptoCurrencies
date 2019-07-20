@@ -1,15 +1,14 @@
 package com.pchasapis.cryptocurrency.ui.activity.productDetails
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.pchasapis.cryptocurrency.R
 import com.pchasapis.cryptocurrency.common.BUNDLE
-import com.pchasapis.cryptocurrency.common.application.CryptoAplication
+import com.pchasapis.cryptocurrency.common.application.CryptoApplication
 import com.pchasapis.cryptocurrency.common.extensions.getAmountWithDecimalAndCurrencySymbolEnd
 import com.pchasapis.cryptocurrency.common.extensions.loadUrl
-import com.pchasapis.cryptocurrency.models.objects.RateDataModel
+import com.pchasapis.cryptocurrency.models.objects.rate.RateDataModel
 import com.pchasapis.cryptocurrency.mvp.interactor.productDetails.ProductDetailsInteractorImpl
 import com.pchasapis.cryptocurrency.mvp.presenter.productDetails.ProductDetailsPresenter
 import com.pchasapis.cryptocurrency.mvp.presenter.productDetails.ProductDetailsPresenterImpl
@@ -24,7 +23,7 @@ class ProductDetailActivity : BaseMVPActivity<ProductDetailsPresenter>(), Produc
         setContentView(R.layout.activity_product_detail)
         presenter = ProductDetailsPresenterImpl(this,
                 intent?.extras?.getParcelable<RateDataModel>(BUNDLE.CRYPTO_DETAILS),
-                ProductDetailsInteractorImpl(CryptoAplication.get()?.cryptoClient!!))
+                ProductDetailsInteractorImpl(CryptoApplication.get()?.cryptoClient!!))
         initLayout()
     }
 

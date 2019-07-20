@@ -50,8 +50,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
     //Image Handling
     implementation 'com.squareup.picasso:picasso:2.71828'
-    //Charts
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    //EventBus
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    //LifeCycle
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

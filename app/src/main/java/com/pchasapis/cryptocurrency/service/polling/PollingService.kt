@@ -102,6 +102,6 @@ class PollingService : Service() {
 
     private fun fetchCrypto() {
         Timber.d("PollingService -> New Event")
-        EventBus.getDefault().postSticky(PollingEvent())
+        EventBus.getDefault().post(PollingEvent())
     }
 }

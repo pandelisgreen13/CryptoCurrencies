@@ -10,7 +10,8 @@ interface CryptoApi {
 
     @GET("/live")
     fun getLiveRatesAsync(@Query("access_key") accessKey: String,
-                          @Query("expand") expand: String): Deferred<LiveDataResponse>
+                          @Query("expand") expand: String,
+                          @Query("target")  target: String): Deferred<LiveDataResponse>
 
 
     @GET("/list")

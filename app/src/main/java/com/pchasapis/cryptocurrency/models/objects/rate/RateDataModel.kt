@@ -1,4 +1,4 @@
-package com.pchasapis.cryptocurrency.models.objects
+package com.pchasapis.cryptocurrency.models.objects.rate
 
 import android.os.Parcelable
 import com.pchasapis.cryptocurrency.models.parsers.crypto.list.Crypto

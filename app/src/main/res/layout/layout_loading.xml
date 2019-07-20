@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:clickable="true"
+    android:alpha="0.7"
     android:background="@android:color/white"
     android:focusable="true"
     android:visibility="gone"
@@ -15,6 +16,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:indeterminateTint="@color/colorPrimary"
+        android:indeterminateTint="@color/colorPrimaryDark"
         android:indeterminateTintMode="src_in" />
 </FrameLayout>
