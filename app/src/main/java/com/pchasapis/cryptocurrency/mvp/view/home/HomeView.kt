@@ -5,4 +5,5 @@ import com.pchasapis.cryptocurrency.mvp.view.base.MVPView
 
 interface HomeView : MVPView {
     fun onRetrieveLiveRates(liveDataList: List<RateDataModel>)
+    fun updateSearchButton(isTyping: Boolean)
 }

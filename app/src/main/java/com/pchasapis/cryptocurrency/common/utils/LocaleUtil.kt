@@ -1,4 +1,4 @@
-package com.pchasapis.cryptocurrency.common
+package com.pchasapis.cryptocurrency.common.utils
 
 import android.content.Context
 import com.pchasapis.cryptocurrency.common.extensions.isNougat

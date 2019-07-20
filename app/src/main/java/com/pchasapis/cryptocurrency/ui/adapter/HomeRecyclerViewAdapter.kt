@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pchasapis.cryptocurrency.R
 import com.pchasapis.cryptocurrency.common.extensions.getAmountWithDecimalAndCurrencySymbolEnd
+import com.pchasapis.cryptocurrency.common.extensions.loadUrl
 import com.pchasapis.cryptocurrency.models.objects.RateDataModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
@@ -31,7 +32,7 @@ class HomeRecyclerViewAdapter(private val liveDataList: List<RateDataModel>, pri
         holder.cryptoLowTextView.text = cryptoRate.rate.low?.getAmountWithDecimalAndCurrencySymbolEnd(holder.itemView.context, cryptoRate.target)
                 ?: "-"
 
-        Picasso.get().load(cryptoRate.crypto?.iconUrl).placeholder(R.mipmap.ic_splash).into(holder.cryptoImageView)
+        holder.cryptoImageView.loadUrl(cryptoRate.crypto?.iconUrl)
 
         holder.itemView.setOnClickListener { onItemClicked(cryptoRate) }
     }

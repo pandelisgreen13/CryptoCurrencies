@@ -9,12 +9,55 @@
         android:id="@+id/toolbarLayout"
         layout="@layout/layout_toolbar" />
 
+    <RelativeLayout
+        android:id="@+id/searchLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbarLayout"
+        android:background="@color/colorPrimary"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/common_fourteen_dp"
+        android:paddingTop="@dimen/common_four_dp"
+        android:paddingEnd="@dimen/common_fourteen_dp"
+        android:paddingBottom="@dimen/common_four_dp">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/common_six_dp"
+            android:layout_toStartOf="@+id/searchImageView"
+            android:backgroundTint="@android:color/white"
+            android:hint="@string/home_search_title"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/common_text_fourteen_sp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/searchImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/common_six_dp"
+            android:text="@string/home_search_title"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/common_text_sixteen_sp"
+            app:srcCompat="@drawable/ic_search" />
+
+    </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/homeRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/common_ten_dp"
-        android:layout_below="@+id/toolbarLayout" />
+        android:layout_below="@+id/searchLinearLayout"
+        android:paddingTop="@dimen/common_ten_dp" />
 
     <include
         layout="@layout/layout_loading"

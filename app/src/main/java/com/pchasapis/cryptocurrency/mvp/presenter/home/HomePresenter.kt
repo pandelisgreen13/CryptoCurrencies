@@ -6,5 +6,7 @@ import com.pchasapis.cryptocurrency.mvp.view.home.HomeView
 
 interface HomePresenter : MVPPresenter<HomeView, HomeInteractor> {
     fun getRates()
+    fun searchForCrypto(queryText: String?)
+    fun showList(isTyping: Boolean)
 
 }

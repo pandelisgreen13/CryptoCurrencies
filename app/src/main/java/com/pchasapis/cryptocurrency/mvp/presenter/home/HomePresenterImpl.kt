@@ -10,6 +10,9 @@ import kotlinx.coroutines.withContext
 
 class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : BasePresenter<HomeView, HomeInteractor>(mainView, homeInteractor), HomePresenter {
 
+    private var rateDataModelList = arrayListOf<RateDataModel>()
+    private var isTyping: Boolean = false
+
     override fun getRates() {
         if (!isViewAttached()) {
             return
@@ -24,7 +27,8 @@ class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : Ba
                 val responseCrypto = withContext(bgDispatcher) { getInteractor()?.onRetrieveCrypotList() }
                 responseCrypto?.data?.let { cryptoList ->
                     getView()?.hideLoader()
-                    getView()?.onRetrieveLiveRates(handleList(rateDateModelList, cryptoList))
+                    rateDataModelList = handleList(rateDateModelList, cryptoList)
+                    getView()?.onRetrieveLiveRates(rateDataModelList)
                 } ?: run {
                     getView()?.showEmpty()
                 }
@@ -34,10 +38,33 @@ class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : Ba
         }
     }
 
-    private fun handleList(rateDateModelList: List<RateDataModel>, cryptoList: List<Crypto>): List<RateDataModel> {
+    override fun searchForCrypto(queryText: String?) {
+        if (!isViewAttached() || queryText.isNullOrEmpty()) {
+            return
+        }
+        this.isTyping = !isTyping
+        getView()?.updateSearchButton(isTyping)
+
+        if (!isTyping) {
+            getView()?.onRetrieveLiveRates(rateDataModelList)
+            return
+        }
+
+        val queryList = rateDataModelList.filter { it.title.toLowerCase() == queryText.toLowerCase() }
+        getView()?.onRetrieveLiveRates(queryList)
+    }
+
+    override fun showList(isTyping: Boolean) {
+        if (!isViewAttached()) {
+            return
+        }
+        this.isTyping = isTyping
+        getView()?.onRetrieveLiveRates(rateDataModelList)
+    }
+
+    private fun handleList(rateDateModelList: List<RateDataModel>, cryptoList: List<Crypto>): ArrayList<RateDataModel> {
         return ArrayList(rateDateModelList.map { rateDataModel ->
             return@map RateDataModel(title = rateDataModel.title, rate = rateDataModel.rate, target = rateDataModel.target, crypto = foundCryptoById(rateDataModel.title, cryptoList))
-
         })
     }
 

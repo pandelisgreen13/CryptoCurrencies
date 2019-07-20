@@ -9,8 +9,11 @@
 
     <!-- Splash -->
     <string name="splash_title">CryptoCurrencies</string>
+
+    <!-- Home -->
     <string name="home_high_title">High:</string>
     <string name="home_low_title">Low:</string>
     <string name="home_toolbar_title">CryptoCurrency</string>
+    <string name="home_search_title">Αναζήτηση:</string>
 
 </resources>
