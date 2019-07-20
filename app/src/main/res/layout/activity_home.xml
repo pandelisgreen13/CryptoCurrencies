@@ -49,27 +49,34 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/common_text_sixteen_sp"
             app:srcCompat="@drawable/ic_search" />
-
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/homeRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/searchLinearLayout"
-        android:paddingTop="@dimen/common_ten_dp" />
-
-    <include
-        layout="@layout/layout_loading"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbarLayout" />
+        android:layout_below="@+id/searchLinearLayout">
 
-    <include
-        layout="@layout/layout_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbarLayout" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/homeRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/common_ten_dp" />
+
+            <include
+                layout="@layout/layout_loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/searchLinearLayout" />
+
+            <include layout="@layout/layout_empty" />
+        </RelativeLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </RelativeLayout>

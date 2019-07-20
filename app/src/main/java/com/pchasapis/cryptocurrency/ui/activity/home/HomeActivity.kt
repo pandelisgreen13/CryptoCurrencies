@@ -18,6 +18,7 @@ import com.pchasapis.cryptocurrency.ui.adapter.HomeRecyclerViewAdapter
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import android.text.TextWatcher
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.pchasapis.cryptocurrency.common.BUNDLE
 import com.pchasapis.cryptocurrency.ui.activity.productDetails.ProductDetailActivity
 
@@ -32,26 +33,18 @@ class HomeActivity : BaseMVPActivity<HomePresenter>(), HomeView {
         presenter?.getRates()
     }
 
-    private fun initLayout() {
-        backButtonImageView.visibility = View.INVISIBLE
-        toolbarTitleTextView.text = getString(R.string.home_toolbar_title)
-        searchImageView.setOnClickListener {
-            presenter?.searchForCrypto(searchEditText.text.toString())
-        }
+    override fun showLoader() {
+        super.showLoader()
+        swipeRefreshLayout.isRefreshing = false
+    }
 
-        searchEditText.addTextChangedListener(object : TextWatcher {
+    override fun hideLoader() {
+        super.hideLoader()
+        swipeRefreshLayout.isRefreshing = false
+    }
 
-            override fun onTextChanged(cs: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
-                if (cs.isEmpty()) {
-                    presenter?.showList(false)
-                    searchEditText.clearFocus()
-                    searchImageView.setImageResource(R.drawable.ic_search)
-                }
-            }
-
-            override fun beforeTextChanged(arg0: CharSequence, arg1: Int, arg2: Int, arg3: Int) {}
-            override fun afterTextChanged(arg0: Editable) {}
-        })
+    override fun showEmpty() {
+        super.showEmpty()
     }
 
     override fun onRetrieveLiveRates(liveDataList: List<RateDataModel>) {
@@ -60,7 +53,7 @@ class HomeActivity : BaseMVPActivity<HomePresenter>(), HomeView {
         homeRecyclerView.setHasFixedSize(true)
         homeRecyclerView.adapter = HomeRecyclerViewAdapter(liveDataList) { rateDataModel ->
             val intent = Intent(this, ProductDetailActivity::class.java)
-            intent.putExtra(BUNDLE.CRYPTO_DETAILS,rateDataModel)
+            intent.putExtra(BUNDLE.CRYPTO_DETAILS, rateDataModel)
             startActivity(intent)
         }
     }
@@ -78,5 +71,28 @@ class HomeActivity : BaseMVPActivity<HomePresenter>(), HomeView {
         searchImageView.setImageResource(searchIcon)
     }
 
+    private fun initLayout() {
+        backButtonImageView.visibility = View.INVISIBLE
+        toolbarTitleTextView.text = getString(R.string.home_toolbar_title)
+        searchImageView.setOnClickListener {
+            presenter?.searchForCrypto(searchEditText.text.toString())
+        }
+
+        swipeRefreshLayout.setOnRefreshListener { presenter?.getRates() }
+
+        searchEditText.addTextChangedListener(object : TextWatcher {
+
+            override fun onTextChanged(cs: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
+                if (cs.isEmpty()) {
+                    presenter?.showList(false)
+                    searchEditText.clearFocus()
+                    searchImageView.setImageResource(R.drawable.ic_search)
+                }
+            }
+
+            override fun beforeTextChanged(arg0: CharSequence, arg1: Int, arg2: Int, arg3: Int) {}
+            override fun afterTextChanged(arg0: Editable) {}
+        })
+    }
 
 }

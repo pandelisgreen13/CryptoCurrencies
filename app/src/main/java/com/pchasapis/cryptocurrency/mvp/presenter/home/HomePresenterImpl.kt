@@ -30,9 +30,11 @@ class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : Ba
                     rateDataModelList = handleList(rateDateModelList, cryptoList)
                     getView()?.onRetrieveLiveRates(rateDataModelList)
                 } ?: run {
+                    responseCrypto?.throwable?.let { onErrorThrowable(it) }
                     getView()?.showEmpty()
                 }
             } ?: run {
+                responseRate?.throwable?.let { onErrorThrowable(it) }
                 getView()?.showEmpty()
             }
         }
