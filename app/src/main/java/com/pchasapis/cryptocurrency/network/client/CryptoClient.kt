@@ -12,6 +12,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.pchasapis.cryptocurrency.models.parsers.crypto.timeFrame.TimeFrameResponse
+import retrofit2.Converter
+
 
 class CryptoClient {
 
@@ -26,6 +31,7 @@ class CryptoClient {
                 .baseUrl(DefinitionsApi.DOMAIN)
                 .client(getOkHttpClient())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                .addConverterFactory(createGsonConverter())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
     }
@@ -37,12 +43,27 @@ class CryptoClient {
             .writeTimeout(60L, TimeUnit.SECONDS)
             .build()
 
+    private fun createGsonConverter(): Converter.Factory {
+        val gsonBuilder = GsonBuilder()
+        gsonBuilder.registerTypeAdapter(TimeFrameResponse::class.java, Deserializer())
+        val gson = gsonBuilder.create()
+        return GsonConverterFactory.create(gson)
+    }
+
     fun getLiveRatesAsync(currency: String): Deferred<LiveDataResponse> {
         return cryptoApi.getLiveRatesAsync(Definitions.ACCESS_KEY, Definitions.EXPAND, currency)
     }
 
     fun getCryptoListAsync(): Deferred<CryptoListResponse> {
         return cryptoApi.getCryptoListAsync(Definitions.ACCESS_KEY)
+    }
+
+    fun getTimeFrameAsync(symbol: String): Deferred<TimeFrameResponse> {
+        return cryptoApi.getTimeFrameAsync(
+                Definitions.ACCESS_KEY,
+                "2019-06-21",
+                "2019-07-21",
+                symbol)
     }
 
 

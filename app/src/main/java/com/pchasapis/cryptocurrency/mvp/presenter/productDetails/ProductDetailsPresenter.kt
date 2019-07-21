@@ -8,6 +8,6 @@ import com.pchasapis.cryptocurrency.mvp.view.productDetails.ProductDetailsView
 
 interface ProductDetailsPresenter : MVPPresenter<ProductDetailsView, ProductDetailsInteractor> {
 
-
     fun getCryptoModel()
+    fun getTimeFrame()
 }
