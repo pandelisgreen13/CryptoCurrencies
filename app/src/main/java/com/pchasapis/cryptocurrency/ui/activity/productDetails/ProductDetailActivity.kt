@@ -53,6 +53,7 @@ class ProductDetailActivity : BaseMVPActivity<ProductDetailsPresenter>(), Produc
                 ?: "-"
 
         cryptoImageView.loadUrl(rateDataModel?.crypto?.iconUrl)
+        toolbarTitleTextView.text = rateDataModel?.title
     }
 
     private fun initLayout() {

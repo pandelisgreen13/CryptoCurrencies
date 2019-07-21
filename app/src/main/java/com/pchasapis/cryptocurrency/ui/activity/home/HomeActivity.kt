@@ -97,8 +97,6 @@ class HomeActivity : BaseMVPActivity<HomePresenter>(), HomeView {
             override fun onTextChanged(charSequence: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
                 if (charSequence.isEmpty()) {
                     presenter?.showList()
-                    searchEditText.clearFocus()
-                    closeSoftKeyboard(this@HomeActivity)
                     return
                 }
                 presenter?.searchForCrypto(searchEditText.text.toString())

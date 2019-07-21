@@ -27,16 +27,16 @@ class ProductDetailsPresenterImpl(productDetailsView: ProductDetailsView,
     }
 
     override fun getTimeFrame() {
-        if (!isViewAttached() || rateDataModel?.crypto?.symbol == null) {
+        if (!isViewAttached()) {
             return
         }
         uiScope.launch {
             getView()?.showLoader()
             val response = withContext(bgDispatcher) {
-                getInteractor()?.onRetrieveTimeFrame(rateDataModel.crypto?.symbol!!,
+                getInteractor()?.onRetrieveTimeFrame(rateDataModel?.title ?: "",
                         getPreviousMonth(),
                         getFormattedDate(System.currentTimeMillis(), DATE_FORMAT),
-                        rateDataModel.target)
+                        rateDataModel?.target ?: "USD")
             }
             if (!isViewAttached()) {
                 return@launch

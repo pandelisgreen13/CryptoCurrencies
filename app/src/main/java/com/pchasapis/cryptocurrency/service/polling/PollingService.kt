@@ -84,7 +84,7 @@ class PollingService : Service() {
                 } catch (e: Exception) {
                     Timber.d(e)
                 } finally {
-                    delay(60 * 10000) //10 minute delay
+                    delay(60 * 1000) //1 minute delay
                 }
             }
         }
