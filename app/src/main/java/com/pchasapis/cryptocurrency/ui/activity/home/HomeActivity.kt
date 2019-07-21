@@ -28,6 +28,8 @@ import org.greenrobot.eventbus.EventBus
 
 class HomeActivity : BaseMVPActivity<HomePresenter>(), HomeView {
 
+    private var homeRecyclerViewAdapter: HomeRecyclerViewAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -66,13 +68,7 @@ class HomeActivity : BaseMVPActivity<HomePresenter>(), HomeView {
     }
 
     override fun onRetrieveLiveRates(liveDataList: List<RateDataModel>) {
-        homeRecyclerView.layoutManager = LinearLayoutManager(this)
-        homeRecyclerView.setHasFixedSize(true)
-        homeRecyclerView.adapter = HomeRecyclerViewAdapter(liveDataList) { rateDataModel ->
-            val intent = Intent(this, ProductDetailActivity::class.java)
-            intent.putExtra(BUNDLE.CRYPTO_DETAILS, rateDataModel)
-            startActivity(intent)
-        }
+        homeRecyclerViewAdapter?.setCryptoList(liveDataList)
     }
 
     private fun initLayout() {
@@ -80,10 +76,20 @@ class HomeActivity : BaseMVPActivity<HomePresenter>(), HomeView {
         actionButtonImageView.visibility = View.VISIBLE
         toolbarTitleTextView.text = getString(R.string.home_toolbar_title)
 
+        homeRecyclerView.layoutManager = LinearLayoutManager(this)
+        homeRecyclerView.setHasFixedSize(true)
+        homeRecyclerViewAdapter = HomeRecyclerViewAdapter { rateDataModel ->
+            val intent = Intent(this, ProductDetailActivity::class.java)
+            intent.putExtra(BUNDLE.CRYPTO_DETAILS, rateDataModel)
+            startActivity(intent)
+        }
+        homeRecyclerView.adapter = homeRecyclerViewAdapter
+
         actionButtonImageView.setOnClickListener {
             searchEditText.clearFocus()
             closeSoftKeyboard(this@HomeActivity)
-            presenter?.getListWithDifferentCurrency() }
+            presenter?.getListWithDifferentCurrency()
+        }
 
         swipeRefreshLayout.setOnRefreshListener { presenter?.getRates() }
         searchEditText.addTextChangedListener(object : TextWatcher {
