@@ -2,7 +2,6 @@ package com.pchasapis.cryptocurrency.ui.activity.base
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import com.afollestad.materialdialogs.DialogCallback
 import com.afollestad.materialdialogs.MaterialDialog
 import com.pchasapis.cryptocurrency.R
@@ -23,7 +22,7 @@ open class BaseActivity : AppCompatActivity() {
         materialDialog = MaterialDialog(this).show {
             title(text = error)
             message(text = errorDescription)
-            positiveButton(text = getString(R.string.common_ok), click = closeListener)
+            positiveButton(text = getString(R.string.ok), click = closeListener)
         }
     }
 }
