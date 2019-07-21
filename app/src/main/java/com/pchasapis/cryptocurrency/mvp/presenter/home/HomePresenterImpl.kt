@@ -12,7 +12,6 @@ import kotlinx.coroutines.withContext
 class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : BasePresenter<HomeView, HomeInteractor>(mainView, homeInteractor), HomePresenter {
 
     private var rateDataModelList = arrayListOf<RateDataModel>()
-    private var isTyping: Boolean = false
     private var currency = Definitions.USD
 
     override fun getRates() {
@@ -27,6 +26,7 @@ class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : Ba
             }
             responseRate?.data?.let { rateDateModelList ->
                 val responseCrypto = withContext(bgDispatcher) { getInteractor()?.onRetrieveCryptoList() }
+
                 responseCrypto?.data?.let { cryptoList ->
                     getView()?.hideLoader()
                     rateDataModelList = handleList(rateDateModelList, cryptoList)
@@ -46,15 +46,10 @@ class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : Ba
         if (!isViewAttached() || queryText.isNullOrEmpty()) {
             return
         }
-        this.isTyping = !isTyping
-        getView()?.updateSearchButton(isTyping)
 
-        if (!isTyping) {
-            getView()?.onRetrieveLiveRates(rateDataModelList)
-            return
+        val queryList = rateDataModelList.filter {
+            it.crypto?.nameFull?.toLowerCase()?.contains(queryText.toLowerCase(), true) ?: false
         }
-
-        val queryList = rateDataModelList.filter { it.title.toLowerCase() == queryText.toLowerCase() }
         getView()?.onRetrieveLiveRates(queryList)
     }
 
@@ -74,7 +69,6 @@ class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : Ba
         if (!isViewAttached()) {
             return
         }
-        this.isTyping = false
         getView()?.onRetrieveLiveRates(rateDataModelList)
     }
 
@@ -91,5 +85,4 @@ class HomePresenterImpl(mainView: HomeView, homeInteractor: HomeInteractor) : Ba
     private fun isEuroCurrency(): Boolean {
         return currency == Definitions.EUR
     }
-
 }

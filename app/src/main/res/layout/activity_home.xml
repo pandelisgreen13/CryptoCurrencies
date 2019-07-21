@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:clickable="false"
             android:background="?attr/selectableItemBackground"
             android:padding="@dimen/common_six_dp"
             android:text="@string/home_search_title"

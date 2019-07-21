@@ -66,7 +66,6 @@ class HomeActivity : BaseMVPActivity<HomePresenter>(), HomeView {
     }
 
     override fun onRetrieveLiveRates(liveDataList: List<RateDataModel>) {
-        closeSoftKeyboard(this)
         homeRecyclerView.layoutManager = LinearLayoutManager(this)
         homeRecyclerView.setHasFixedSize(true)
         homeRecyclerView.adapter = HomeRecyclerViewAdapter(liveDataList) { rateDataModel ->
@@ -76,35 +75,27 @@ class HomeActivity : BaseMVPActivity<HomePresenter>(), HomeView {
         }
     }
 
-    override fun updateSearchButton(isTyping: Boolean) {
-        val searchIcon: Int
-        when {
-            isTyping -> searchIcon = R.drawable.ic_close
-            else -> {
-                searchIcon = R.drawable.ic_search
-                searchEditText.setText("")
-                searchEditText.clearFocus()
-            }
-        }
-        searchImageView.setImageResource(searchIcon)
-    }
-
     private fun initLayout() {
         backButtonImageView.visibility = View.INVISIBLE
         actionButtonImageView.visibility = View.VISIBLE
         toolbarTitleTextView.text = getString(R.string.home_toolbar_title)
-        searchImageView.setOnClickListener { presenter?.searchForCrypto(searchEditText.text.toString()) }
-        actionButtonImageView.setOnClickListener { presenter?.getListWithDifferentCurrency() }
+
+        actionButtonImageView.setOnClickListener {
+            searchEditText.clearFocus()
+            closeSoftKeyboard(this@HomeActivity)
+            presenter?.getListWithDifferentCurrency() }
 
         swipeRefreshLayout.setOnRefreshListener { presenter?.getRates() }
         searchEditText.addTextChangedListener(object : TextWatcher {
 
-            override fun onTextChanged(cs: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
-                if (cs.isEmpty()) {
+            override fun onTextChanged(charSequence: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
+                if (charSequence.isEmpty()) {
                     presenter?.showList()
                     searchEditText.clearFocus()
-                    searchImageView.setImageResource(R.drawable.ic_search)
+                    closeSoftKeyboard(this@HomeActivity)
+                    return
                 }
+                presenter?.searchForCrypto(searchEditText.text.toString())
             }
 
             override fun beforeTextChanged(arg0: CharSequence, arg1: Int, arg2: Int, arg3: Int) {}
