@@ -1,8 +1,9 @@
 package com.pchasapis.cryptocurrency.mvp.presenter.productDetails
 
 import com.github.mikephil.charting.data.Entry
+import com.pchasapis.cryptocurrency.common.extensions.DateFormatterExtentions.DATE_FORMAT
 import com.pchasapis.cryptocurrency.common.extensions.getFormattedDate
-import com.pchasapis.cryptocurrency.common.extensions.parseStringDateToMillis
+import com.pchasapis.cryptocurrency.common.extensions.getFormattedStringFromDate
 import com.pchasapis.cryptocurrency.models.objects.rate.RateDataModel
 import com.pchasapis.cryptocurrency.models.parsers.crypto.timeFrame.TimeFrame
 import com.pchasapis.cryptocurrency.mvp.interactor.productDetails.ProductDetailsInteractor
@@ -10,6 +11,8 @@ import com.pchasapis.cryptocurrency.mvp.presenter.base.BasePresenter
 import com.pchasapis.cryptocurrency.mvp.view.productDetails.ProductDetailsView
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ProductDetailsPresenterImpl(productDetailsView: ProductDetailsView,
                                   private val rateDataModel: RateDataModel?,
@@ -29,7 +32,12 @@ class ProductDetailsPresenterImpl(productDetailsView: ProductDetailsView,
         }
         uiScope.launch {
             getView()?.showLoader()
-            val response = withContext(bgDispatcher) { getInteractor()?.onRetrieveTimeFrame(rateDataModel.crypto?.symbol!!) }
+            val response = withContext(bgDispatcher) {
+                getInteractor()?.onRetrieveTimeFrame(rateDataModel.crypto?.symbol!!,
+                        getPreviousMonth(),
+                        getFormattedDate(System.currentTimeMillis(), DATE_FORMAT),
+                        rateDataModel.target)
+            }
             if (!isViewAttached()) {
                 return@launch
             }
@@ -56,5 +64,11 @@ class ProductDetailsPresenterImpl(productDetailsView: ProductDetailsView,
             entries.add(Entry(i.toFloat(), ratesList[i].rate?.toFloat() ?: 0F))
         }
         return entries
+    }
+
+    private fun getPreviousMonth(): String {
+        val month = Calendar.getInstance()
+        month.add(Calendar.MONTH, -1)
+        return getFormattedStringFromDate(month.time, DATE_FORMAT)
     }
 }

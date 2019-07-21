@@ -10,9 +10,9 @@ import timber.log.Timber
 class ProductDetailsInteractorImpl(private var cryptoClient: CryptoClient) : BaseInteractor(), ProductDetailsInteractor {
 
 
-    override suspend fun onRetrieveTimeFrame(symbol: String): DataResult<TimeFrameResponse> {
+    override suspend fun onRetrieveTimeFrame(symbol: String, startDate: String, endDate: String, target: String): DataResult<TimeFrameResponse> {
         return try {
-            val response = cryptoClient.getTimeFrameAsync(symbol).await()
+            val response = cryptoClient.getTimeFrameAsync(symbol, startDate, endDate, target).await()
             DataResult(response)
         } catch (t: Throwable) {
             Timber.d(t)

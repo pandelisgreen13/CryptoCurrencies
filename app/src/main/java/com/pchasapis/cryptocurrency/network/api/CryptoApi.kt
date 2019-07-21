@@ -23,6 +23,7 @@ interface CryptoApi {
     fun getTimeFrameAsync(@Query("access_key") accessKey: String,
                           @Query("start_date") start_date: String,
                           @Query("end_date") end_date: String,
-                          @Query("symbols") symbols: String): Deferred<TimeFrameResponse>
+                          @Query("symbols") symbols: String,
+                          @Query("target") target: String): Deferred<TimeFrameResponse>
 
 }

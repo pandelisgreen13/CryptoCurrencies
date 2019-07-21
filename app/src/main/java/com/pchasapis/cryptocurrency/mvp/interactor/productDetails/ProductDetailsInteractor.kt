@@ -6,6 +6,6 @@ import com.pchasapis.cryptocurrency.mvp.interactor.base.MVPInteractor
 
 interface ProductDetailsInteractor : MVPInteractor {
 
-    suspend fun onRetrieveTimeFrame(symbol: String): DataResult<TimeFrameResponse>
+    suspend fun onRetrieveTimeFrame(symbol: String, startDate: String, endDate: String, target: String): DataResult<TimeFrameResponse>
 
 }

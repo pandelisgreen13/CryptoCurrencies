@@ -58,13 +58,12 @@ class CryptoClient {
         return cryptoApi.getCryptoListAsync(Definitions.ACCESS_KEY)
     }
 
-    fun getTimeFrameAsync(symbol: String): Deferred<TimeFrameResponse> {
+    fun getTimeFrameAsync(symbol: String, startDate: String, endDate: String, target: String): Deferred<TimeFrameResponse> {
         return cryptoApi.getTimeFrameAsync(
                 Definitions.ACCESS_KEY,
-                "2019-06-21",
-                "2019-07-21",
-                symbol)
+                startDate,
+                endDate,
+                symbol,
+                target)
     }
-
-
 }

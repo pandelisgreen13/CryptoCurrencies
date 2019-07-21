@@ -7,7 +7,7 @@ import java.util.*
 
 
 object DateFormatterExtentions {
-    const val DATE_FORMAT_NEWS_FEED = "dd/MM/yyyy HH:mm"
+    const val DATE_FORMAT = "yyyy-MM-dd"
 }
 
 @SuppressLint("SimpleDateFormat")
@@ -46,6 +46,17 @@ fun getFormattedDate(dateInMillis: Long, dateFormat: String): String {
     try {
         val formatter = SimpleDateFormat(dateFormat)
         return formatter.format(Date(dateInMillis))
+    } catch (e: Exception) {
+        Timber.d(e)
+    }
+    return ""
+}
+
+@SuppressLint("SimpleDateFormat")
+fun getFormattedStringFromDate(date: Date, dateFormat: String): String {
+    try {
+        val formatter = SimpleDateFormat(dateFormat)
+        return formatter.format(date)
     } catch (e: Exception) {
         Timber.d(e)
     }
